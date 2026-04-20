@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador RC Profesiones Médicas — Seguros Bolívar</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a1a; min-height: 100vh; padding: 1.5rem 1rem 3rem; }
+.container { max-width: 600px; margin: 0 auto; }
+.logo-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
+.logo-dot { width: 32px; height: 32px; background: #d62b2b; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.logo-dot span { color: white; font-weight: 700; font-size: 14px; }
+.logo-text { font-size: 14px; color: #555; }
+.logo-text strong { color: #1a1a1a; display: block; font-size: 15px; }
+h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: #666; margin-bottom: 1.5rem; }
+.card { background: #fff; border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.card-title { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1rem; }
+.field { margin-bottom: 1rem; }
+.field:last-child { margin-bottom: 0; }
+.field label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; font-weight: 500; }
+.field input[type="text"],
+.field input[type="number"],
+.field select { width: 100%; height: 42px; padding: 0 12px; font-size: 14px; border: 1.5px solid #e0e0e0; border-radius: 9px; color: #1a1a1a; background: #fafafa; transition: border-color 0.15s; appearance: none; -webkit-appearance: none; }
+.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; background-color: #fafafa; }
+.field input:focus, .field select:focus { outline: none; border-color: #d62b2b; background: #fff; }
+.toggle-row { display: flex; gap: 8px; }
+.toggle-btn { flex: 1; height: 42px; border: 1.5px solid #e0e0e0; border-radius: 9px; background: #fafafa; color: #666; font-size: 14px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.toggle-btn.active { background: #fff0f0; border-color: #d62b2b; color: #d62b2b; font-weight: 600; }
+.result-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 1rem; }
+.result-header { background: #1a1a1a; padding: 1.25rem; }
+.result-header .label { font-size: 12px; color: #999; margin-bottom: 4px; }
+.result-header .prima { font-size: 32px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+.result-header .sub { font-size: 12px; color: #aaa; margin-top: 4px; }
+.result-body { padding: 1.25rem; }
+.result-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 12px; }
+.result-row:last-child { border-bottom: none; }
+.result-row .lbl { color: #888; flex-shrink: 0; }
+.result-row .val { font-weight: 500; color: #1a1a1a; text-align: right; }
+.badge { display: inline-block; font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; }
+.badge-cat { background: #e8f0fe; color: #1a56db; }
+.alerta-box { background: #fffbea; border: 1.5px solid #f5c542; border-radius: 10px; padding: 12px 14px; margin-bottom: 1rem; font-size: 13px; color: #7a5c00; line-height: 1.5; }
+.alerta-box strong { display: block; margin-bottom: 3px; }
+.escala-box { background: #fff5f5; border: 1.5px solid #f5a0a0; border-radius: 10px; padding: 12px 14px; margin-bottom: 1rem; font-size: 13px; color: #a00; line-height: 1.5; }
+.escala-box strong { display: block; margin-bottom: 3px; }
+.copy-btn { width: 100%; height: 46px; background: #1a1a1a; border: none; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+.copy-btn:hover { background: #333; }
+.copy-btn:active { background: #d62b2b; }
+.empty-state { text-align: center; padding: 2rem 1rem; color: #aaa; font-size: 14px; }
+.nota { font-size: 11px; color: #aaa; text-align: center; margin-top: 1.5rem; line-height: 1.6; }
+.escala-header { background: #fff5f5; }
+.escala-header .prima { color: #d62b2b; font-size: 22px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="logo-bar">
+    <div class="logo-dot"><span>SB</span></div>
+    <div class="logo-text"><strong>Seguros Bolívar</strong>RC Profesiones Médicas</div>
+  </div>
+
+  <h1>Cotizador de responsabilidad civil</h1>
+  <p class="subtitle">Autogestión para agencias — vigencia 12 meses</p>
+
+  <div class="card">
+    <div class="card-title">Datos del riesgo</div>
+
+    <div class="field">
+      <label>Buscar profesión</label>
+      <input type="text" id="profSearch" placeholder="Ej: ortopedista, médico general..." oninput="filterProf(this.value)" autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label>Seleccionar profesión</label>
+      <select id="profSelect" onchange="onProfChange()">
+        <option value="">— seleccionar —</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Valor asegurado (mínimo $50.000.000)</label>
+      <input type="number" id="valorInput" min="50000000" max="1000000000" step="1000000" value="100000000" oninput="calcular()" />
+    </div>
+
+    <div class="field">
+      <label>¿Ha tenido siniestralidad?</label>
+      <div class="toggle-row">
+        <button class="toggle-btn" id="sinSI" onclick="setSin('SI')">Sí</button>
+        <button class="toggle-btn active" id="sinNO" onclick="setSin('NO')">No</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>¿Trabaja en 2 o más instituciones?</label>
+      <div class="toggle-row">
+        <button class="toggle-btn" id="instSI" onclick="setInst('SI')">Sí</button>
+        <button class="toggle-btn active" id="instNO" onclick="setInst('NO')">No</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>¿Tiene 2 o más profesiones?</label>
+      <div class="toggle-row">
+        <button class="toggle-btn" id="profSI" onclick="setProfDoble('SI')">Sí</button>
+        <button class="toggle-btn active" id="profNO" onclick="setProfDoble('NO')">No</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="resultArea"><div class="empty-state">Selecciona una profesión para ver la cotización</div></div>
+
+  <p class="nota">Cotización válida 30 días · Sin IVA · Sin gastos de expedición<br>Seguros Comerciales Bolívar S.A. se reserva el derecho de revisar términos ante cambios en la siniestralidad.</p>
+</div>
+
+<script>
+const PROFESIONES = {
+  5:["ANESTESIOLOGO","EMATO-ONCOLOGO","CIRUGIA PLASTICA RECONSTRUCTIVA","CIRUJANO","NEUMÓLOGO","ANGIOLOGO","GINECOLOGO","IMPLÁNTOLOGO","CARDIOLOGO","GINECOBSTETRA","ESTOMATOLOGO","RETÍNOLOGO","NEUROLOGO","URONCÓLOGO","PERFUSIONISTA","CIRUJANO ORTOPEDISTA","GASTROENTEROLOGO","NEUROCIRUJANO","CIRUJANOS OTRAS ESPECIALIDADES"],
+  4:["RADIOLOGO","INTENSIVISTA","RADIOTERAPEUTA","UROLOGO","ELECTROFISIOLOGO","ORTOPEDISTA","PSIQUIATRA","URGENCIOLOGO"],
+  3:["MASTOLOGO","REHABILITADOR DENTAL","ECÓGRAFO","ENDOCRINOLOGO","OFTALMOLOGO","ESTRÁBOLOGO","PEDIATRA","OTORRINOLARINGOLOGO","HEMATOLOGO","ORTOPOTÓLOGO","ENDODONCISTA","REUMATOLOGO","PROCTÓLOGO","ESPECIALISTA MAXILOFACIAL","EPIDEMIOLOGO","PSICÓLOGOS","PERIODONCISTA","ENDOSCOPISTA","PATÓLOGO","GERONTOLOGO","HEMODINÁMICA","INFECTOLOGO","TRAUMATOLOGO","NEFRÓLOGO","LINFOLOGO","INMUNÓLOGO","ODONTOPEDIATRA","FISIATRA"],
+  2:["MEDICO GENERAL","ALERGISTA","ENFERMERA","FISICO MEDICO","QUIMICO","BACTERIOLOGO","TERÁPISTA VIAS RESPIRATORIA","NUTRICIONISTA","OPTÓMETRA","TERÁPISTA DE LENGUAJE","DERMATOLOGO","FISIOTERAPEUTA","TERAPEUTA","TIFLOLOGIA","INTERNISTA","MEDICO ALTERNATIVO","PROSTODONCIO","TOXICOLOGO","MEDICINA NUCLEAR","HOMEOPATA","GERONTOLOGIA"],
+  1:["ODONTÓLOGO","ORTODONCISTA","HIGIENISTA","AUXILIAR DE ENFERMERIA","AUXILIAR DE ODONTOLOGIA"]
+};
+
+const profMap={};
+const allProfs=[];
+Object.entries(PROFESIONES).forEach(([cat,profs])=>{profs.forEach(p=>{profMap[p]=parseInt(cat);allProfs.push(p);});});
+allProfs.sort();
+
+let state={prof:'',cat:0,valor:100000000,sin:'NO',inst:'NO',profDoble:'NO'};
+
+function poblarSelect(lista){
+  const sel=document.getElementById('profSelect');
+  const prev=state.prof;
+  sel.innerHTML='<option value="">— seleccionar —</option>';
+  lista.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;if(p===prev)o.selected=true;sel.appendChild(o);});
+}
+poblarSelect(allProfs);
+
+function filterProf(q){
+  const f=q.trim()===''?allProfs:allProfs.filter(p=>p.toLowerCase().includes(q.toLowerCase()));
+  poblarSelect(f);
+}
+function onProfChange(){
+  const sel=document.getElementById('profSelect');
+  state.prof=sel.value;
+  state.cat=profMap[state.prof]||0;
+  calcular();
+}
+function setSin(v){state.sin=v;document.getElementById('sinSI').className='toggle-btn'+(v==='SI'?' active':'');document.getElementById('sinNO').className='toggle-btn'+(v==='NO'?' active':'');calcular();}
+function setInst(v){state.inst=v;document.getElementById('instSI').className='toggle-btn'+(v==='SI'?' active':'');document.getElementById('instNO').className='toggle-btn'+(v==='NO'?' active':'');calcular();}
+function setProfDoble(v){state.profDoble=v;document.getElementById('profSI').className='toggle-btn'+(v==='SI'?' active':'');document.getElementById('profNO').className='toggle-btn'+(v==='NO'?' active':'');calcular();}
+document.getElementById('valorInput').oninput=function(){state.valor=parseInt(this.value)||0;calcular();};
+
+function calcPrima(valor){
+  const pts=[
+    [50e6,{5:348250,4:288250,3:238250,2:178250,1:132500}],
+    [100e6,{5:450500,4:365500,3:305500,2:234500,1:172250}],
+    [200e6,{5:660500,4:530000,3:430000,2:308750,1:226250}],
+    [300e6,{5:850750,4:700750,3:570750,2:400750,1:297812}],
+    [400e6,{5:1077000,4:877000,3:707000,2:457000,1:343187}],
+    [500e6,{5:1251250,4:1041250,3:851250,2:561250,1:418984}]
+  ];
+  for(let i=0;i<pts.length-1;i++){
+    const[v0,p0]=pts[i];const[v1,p1]=pts[i+1];
+    if(valor>=v0&&valor<=v1){
+      const t=(valor-v0)/(v1-v0);
+      const res={};[1,2,3,4,5].forEach(c=>{res[c]=Math.round(p0[c]+t*(p1[c]-p0[c]));});
+      return res;
+    }
+  }
+  return null;
+}
+
+function fmt(n){return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(n);}
+
+function calcular(){
+  const area=document.getElementById('resultArea');
+  if(!state.prof){area.innerHTML='<div class="empty-state">Selecciona una profesión para ver la cotización</div>';return;}
+  const v=state.valor;
+  if(v<50000000){area.innerHTML='<div class="alerta-box"><strong>Valor mínimo no cumplido</strong>El valor asegurado mínimo es $50.000.000.</div>';return;}
+
+  const escalaValor=v>500000000;
+  const escalaInst=state.inst==='SI';
+  const escalaProfDoble=state.profDoble==='SI';
+  const escalaSin=state.sin==='SI';
+  const escalaCirc=state.prof==='CIRUGIA PLASTICA RECONSTRUCTIVA';
+  const necesitaEscala=escalaValor||escalaSin||escalaCirc;
+  const necesitaAutorizacion=escalaInst||escalaProfDoble;
+
+  let primaNeta=0,extraprima=0,primaBase=0;
+  let motivos=[];
+
+  if(!escalaValor){
+    const primas=calcPrima(v);
+    if(primas){
+      primaBase=primas[state.cat];
+      primaNeta=primaBase;
+      if(necesitaAutorizacion){
+        extraprima=Math.round(primaBase*0.20);
+        primaNeta+=extraprima;
+        if(escalaInst)motivos.push('2+ instituciones');
+        if(escalaProfDoble)motivos.push('2+ profesiones');
+      }
+    }
+  }
+
+  const catNames={5:'Cat. 5 — máximo riesgo',4:'Cat. 4',3:'Cat. 3',2:'Cat. 2',1:'Cat. 1 — mínimo riesgo'};
+  let html='';
+
+  if(necesitaEscala){
+    let razones=[];
+    if(escalaValor)razones.push('Valor asegurado superior a $500.000.000');
+    if(escalaSin)razones.push('Registra siniestralidad');
+    if(escalaCirc)razones.push('Cirugía plástica: siempre requiere delegación del Director Comercial');
+    html+=`
+    <div class="result-card">
+      <div class="result-header escala-header">
+        <div class="label">Estado</div>
+        <div class="prima">Requiere escalamiento</div>
+        <div class="sub">Esta solicitud debe ser enviada al Director Comercial</div>
+      </div>
+      <div class="result-body">
+        <div class="result-row"><span class="lbl">Profesión</span><span class="val">${state.prof}</span></div>
+        <div class="result-row"><span class="lbl">Clasificación</span><span class="val"><span class="badge badge-cat">Cat. ${state.cat}</span></span></div>
+        <div class="result-row"><span class="lbl">Valor asegurado</span><span class="val">${fmt(v)}</span></div>
+        <div class="result-row"><span class="lbl">Siniestralidad</span><span class="val">${state.sin}</span></div>
+      </div>
+    </div>
+    <div class="escala-box"><strong>Motivo del escalamiento</strong>${razones.map(r=>'· '+r).join('<br>')}</div>`;
+  } else {
+    html+=`
+    <div class="result-card">
+      <div class="result-header">
+        <div class="label">Prima neta (sin IVA)</div>
+        <div class="prima">${fmt(primaNeta)}</div>
+        <div class="sub">Vigencia 12 meses · Base de cobertura: Ocurrencia</div>
+      </div>
+      <div class="result-body">
+        <div class="result-row"><span class="lbl">Profesión</span><span class="val">${state.prof}</span></div>
+        <div class="result-row"><span class="lbl">Clasificación</span><span class="val"><span class="badge badge-cat">Cat. ${state.cat} — ${catNames[state.cat]}</span></span></div>
+        <div class="result-row"><span class="lbl">Valor asegurado</span><span class="val">${fmt(v)}</span></div>
+        <div class="result-row"><span class="lbl">Prima base</span><span class="val">${fmt(primaBase)}</span></div>
+        ${extraprima>0?`<div class="result-row"><span class="lbl">Extraprima 20% (${motivos.join(', ')})</span><span class="val">${fmt(extraprima)}</span></div>`:''}
+        <div class="result-row"><span class="lbl">Amparos</span><span class="val">RC Prof. · Gastos def. · Daño moral · Lucro cesante</span></div>
+        <div class="result-row"><span class="lbl">Deducible</span><span class="val">2 SMMLV / 10% mínimo</span></div>
+      </div>
+    </div>`;
+    if(necesitaAutorizacion){
+      html+=`<div class="alerta-box"><strong>Requiere autorización del Director Comercial</strong>La extraprima del 20% por ${motivos.join(' y ')} debe ser aprobada antes de emitir la póliza.</div>`;
+    }
+  }
+
+  html+=`<button class="copy-btn" onclick="copiarResumen()">Copiar resumen para WhatsApp / correo</button>`;
+  area.innerHTML=html;
+}
+
+function copiarResumen(){
+  if(!state.prof)return;
+  const v=state.valor;
+  const escalaValor=v>500000000;
+  const escalaInst=state.inst==='SI';
+  const escalaProfDoble=state.profDoble==='SI';
+  const escalaSin=state.sin==='SI';
+  const escalaCirc=state.prof==='CIRUGIA PLASTICA RECONSTRUCTIVA';
+  const necesitaEscala=escalaValor||escalaSin||escalaCirc;
+  let primaNeta=0,extraprima=0;
+  if(!escalaValor){
+    const primas=calcPrima(v);
+    if(primas){primaNeta=primas[state.cat];if(escalaInst||escalaProfDoble){extraprima=Math.round(primaNeta*0.20);primaNeta+=extraprima;}}
+  }
+  let txt='*Cotización RC Profesiones Médicas — Seguros Bolívar*\n';
+  txt+=`Profesión: ${state.prof} (Cat. ${state.cat})\n`;
+  txt+=`Valor asegurado: ${fmt(v)}\n`;
+  txt+=`Siniestralidad: ${state.sin} | 2+ instituciones: ${state.inst} | 2+ profesiones: ${state.profDoble}\n`;
+  if(necesitaEscala){txt+='*Estado: REQUIERE ESCALAMIENTO AL DIRECTOR COMERCIAL*\n';}
+  else{
+    txt+=`Prima neta (sin IVA): ${fmt(primaNeta)}\n`;
+    if(extraprima>0)txt+=`Extraprima 20%: ${fmt(extraprima)} — pendiente autorización DC\n`;
+    txt+=`Amparos: RC Prof. · Gastos def. · Daño moral · Lucro cesante\n`;
+    txt+=`Deducible: 2 SMMLV / 10% | Vigencia: 12 meses\n`;
+    txt+=`_Cotización válida 30 días calendario_`;
+  }
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.querySelector('.copy-btn');
+    if(btn){btn.textContent='¡Copiado!';setTimeout(()=>{btn.textContent='Copiar resumen para WhatsApp / correo';},2000);}
+  });
+}
+</script>
+</body>
+</html>
