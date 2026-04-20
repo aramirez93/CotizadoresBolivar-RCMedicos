@@ -4,288 +4,296 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cotizador RC Profesiones Médicas — Seguros Bolívar</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a1a; min-height: 100vh; padding: 1.5rem 1rem 3rem; }
-.container { max-width: 600px; margin: 0 auto; }
-.logo-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
-.logo-dot { width: 32px; height: 32px; background: #d62b2b; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.logo-dot span { color: white; font-weight: 700; font-size: 14px; }
-.logo-text { font-size: 14px; color: #555; }
-.logo-text strong { color: #1a1a1a; display: block; font-size: 15px; }
-h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
-.subtitle { font-size: 13px; color: #666; margin-bottom: 1.5rem; }
-.card { background: #fff; border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-.card-title { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1rem; }
-.field { margin-bottom: 1rem; }
-.field:last-child { margin-bottom: 0; }
-.field label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; font-weight: 500; }
-.field input[type="text"],
-.field input[type="number"],
-.field select { width: 100%; height: 42px; padding: 0 12px; font-size: 14px; border: 1.5px solid #e0e0e0; border-radius: 9px; color: #1a1a1a; background: #fafafa; transition: border-color 0.15s; appearance: none; -webkit-appearance: none; }
-.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; background-color: #fafafa; }
-.field input:focus, .field select:focus { outline: none; border-color: #d62b2b; background: #fff; }
-.toggle-row { display: flex; gap: 8px; }
-.toggle-btn { flex: 1; height: 42px; border: 1.5px solid #e0e0e0; border-radius: 9px; background: #fafafa; color: #666; font-size: 14px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-.toggle-btn.active { background: #fff0f0; border-color: #d62b2b; color: #d62b2b; font-weight: 600; }
-.result-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 1rem; }
-.result-header { background: #1a1a1a; padding: 1.25rem; }
-.result-header .label { font-size: 12px; color: #999; margin-bottom: 4px; }
-.result-header .prima { font-size: 32px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
-.result-header .sub { font-size: 12px; color: #aaa; margin-top: 4px; }
-.result-body { padding: 1.25rem; }
-.result-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 12px; }
-.result-row:last-child { border-bottom: none; }
-.result-row .lbl { color: #888; flex-shrink: 0; }
-.result-row .val { font-weight: 500; color: #1a1a1a; text-align: right; }
-.badge { display: inline-block; font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; }
-.badge-cat { background: #e8f0fe; color: #1a56db; }
-.alerta-box { background: #fffbea; border: 1.5px solid #f5c542; border-radius: 10px; padding: 12px 14px; margin-bottom: 1rem; font-size: 13px; color: #7a5c00; line-height: 1.5; }
-.alerta-box strong { display: block; margin-bottom: 3px; }
-.escala-box { background: #fff5f5; border: 1.5px solid #f5a0a0; border-radius: 10px; padding: 12px 14px; margin-bottom: 1rem; font-size: 13px; color: #a00; line-height: 1.5; }
-.escala-box strong { display: block; margin-bottom: 3px; }
-.copy-btn { width: 100%; height: 46px; background: #1a1a1a; border: none; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; }
-.copy-btn:hover { background: #333; }
-.copy-btn:active { background: #d62b2b; }
-.empty-state { text-align: center; padding: 2rem 1rem; color: #aaa; font-size: 14px; }
-.nota { font-size: 11px; color: #aaa; text-align: center; margin-top: 1.5rem; line-height: 1.6; }
-.escala-header { background: #fff5f5; }
-.escala-header .prima { color: #d62b2b; font-size: 22px; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a1a;min-height:100vh;padding:1.5rem 1rem 3rem}
+.container{max-width:620px;margin:0 auto}
+.logo-bar{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
+.logo-dot{width:34px;height:34px;background:#d62b2b;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.logo-dot span{color:#fff;font-weight:700;font-size:13px}
+.logo-text{font-size:13px;color:#666}
+.logo-text strong{color:#1a1a1a;display:block;font-size:15px}
+h1{font-size:22px;font-weight:600;margin-bottom:4px}
+.subtitle{font-size:13px;color:#666;margin-bottom:1.5rem}
+.card{background:#fff;border-radius:14px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card-title{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.07em;margin-bottom:1rem}
+.field{margin-bottom:1rem}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:13px;color:#555;margin-bottom:5px;font-weight:500}
+.field input,.field select{width:100%;height:42px;padding:0 12px;font-size:14px;border:1.5px solid #e0e0e0;border-radius:9px;color:#1a1a1a;background:#fafafa;transition:border-color .15s;-webkit-appearance:none;appearance:none;font-family:inherit}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-color:#fafafa;padding-right:32px}
+.field input:focus,.field select:focus{outline:none;border-color:#d62b2b;background:#fff}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.toggle-row{display:flex;gap:8px}
+.toggle-btn{flex:1;height:42px;border:1.5px solid #e0e0e0;border-radius:9px;background:#fafafa;color:#666;font-size:14px;cursor:pointer;transition:all .15s;font-family:inherit}
+.toggle-btn.active{background:#fff0f0;border-color:#d62b2b;color:#d62b2b;font-weight:600}
+.calc-btn{width:100%;height:48px;background:#d62b2b;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:.5rem}
+.calc-btn:hover{background:#b52020}
+.result-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:1rem}
+.rh{background:#1a1a1a;padding:1.25rem}
+.rh .rl{font-size:12px;color:#999;margin-bottom:4px}
+.rh .rp{font-size:32px;font-weight:700;color:#fff;letter-spacing:-.5px}
+.rh .rs{font-size:12px;color:#aaa;margin-top:4px}
+.rh.escala{background:#fff5f5}
+.rh.escala .rp{color:#c00;font-size:20px}
+.rh.escala .rl,.rh.escala .rs{color:#a00}
+.rb{padding:1.25rem}
+.rrow{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:13px;gap:12px}
+.rrow:last-child{border-bottom:none}
+.rrow .ll{color:#888;flex-shrink:0}
+.rrow .vv{font-weight:500;color:#1a1a1a;text-align:right}
+.badge{display:inline-block;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;background:#e8f0fe;color:#1a56db}
+.ibox{border-radius:10px;padding:12px 14px;margin-bottom:1rem;font-size:13px;line-height:1.6}
+.ibox b{display:block;margin-bottom:3px}
+.ibox.warn{background:#fffbea;border:1.5px solid #f5c542;color:#7a5c00}
+.ibox.danger{background:#fff5f5;border:1.5px solid #f5a0a0;color:#a00}
+.arow{display:flex;gap:10px;margin-bottom:1rem}
+.btn-pdf{flex:1;height:46px;background:#1a1a1a;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-pdf:hover{background:#333}
+.btn-mail{flex:1;height:46px;background:#fff;border:1.5px solid #e0e0e0;border-radius:10px;color:#1a1a1a;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-mail:hover{border-color:#d62b2b;color:#d62b2b}
+.btn-mail.red{background:#d62b2b;border-color:#d62b2b;color:#fff}
+.btn-mail.red:hover{background:#b52020}
+.empty{text-align:center;padding:2.5rem 1rem;color:#aaa;font-size:14px;background:#fff;border-radius:14px;margin-bottom:1rem}
+.nota{font-size:11px;color:#aaa;text-align:center;margin-top:1.5rem;line-height:1.7}
+@media(max-width:480px){.two-col{grid-template-columns:1fr}.arow{flex-direction:column}}
 </style>
 </head>
 <body>
 <div class="container">
-
   <div class="logo-bar">
     <div class="logo-dot"><span>SB</span></div>
     <div class="logo-text"><strong>Seguros Bolívar</strong>RC Profesiones Médicas</div>
   </div>
-
   <h1>Cotizador de responsabilidad civil</h1>
   <p class="subtitle">Autogestión para agencias — vigencia 12 meses</p>
 
   <div class="card">
-    <div class="card-title">Datos del riesgo</div>
-
-    <div class="field">
-      <label>Buscar profesión</label>
-      <input type="text" id="profSearch" placeholder="Ej: ortopedista, médico general..." oninput="filterProf(this.value)" autocomplete="off" />
+    <div class="card-title">Datos del asegurado</div>
+    <div class="two-col">
+      <div class="field"><label>Nombre completo del médico</label><input type="text" id="nomMed" placeholder="Nombres y apellidos"></div>
+      <div class="field"><label>Cédula de ciudadanía</label><input type="text" id="ccMed" placeholder="000.000.000"></div>
     </div>
-
-    <div class="field">
-      <label>Seleccionar profesión</label>
-      <select id="profSelect" onchange="onProfChange()">
-        <option value="">— seleccionar —</option>
-      </select>
+    <div class="two-col">
+      <div class="field"><label>Ciudad</label><input type="text" id="cidMed" placeholder="Ciudad"></div>
+      <div class="field"><label>Teléfono</label><input type="tel" id="telMed" placeholder="300 000 0000"></div>
     </div>
-
-    <div class="field">
-      <label>Valor asegurado (mínimo $50.000.000)</label>
-      <input type="number" id="valorInput" min="50000000" max="1000000000" step="1000000" value="100000000" oninput="calcular()" />
-    </div>
-
-    <div class="field">
-      <label>¿Ha tenido siniestralidad?</label>
-      <div class="toggle-row">
-        <button class="toggle-btn" id="sinSI" onclick="setSin('SI')">Sí</button>
-        <button class="toggle-btn active" id="sinNO" onclick="setSin('NO')">No</button>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>¿Trabaja en 2 o más instituciones?</label>
-      <div class="toggle-row">
-        <button class="toggle-btn" id="instSI" onclick="setInst('SI')">Sí</button>
-        <button class="toggle-btn active" id="instNO" onclick="setInst('NO')">No</button>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>¿Tiene 2 o más profesiones?</label>
-      <div class="toggle-row">
-        <button class="toggle-btn" id="profSI" onclick="setProfDoble('SI')">Sí</button>
-        <button class="toggle-btn active" id="profNO" onclick="setProfDoble('NO')">No</button>
-      </div>
-    </div>
+    <div class="field"><label>Correo electrónico</label><input type="email" id="emMed" placeholder="medico@correo.com"></div>
   </div>
 
-  <div id="resultArea"><div class="empty-state">Selecciona una profesión para ver la cotización</div></div>
+  <div class="card">
+    <div class="card-title">Agencia y asesor</div>
+    <div class="field"><label>Nombre de la agencia</label><input type="text" id="nomAg" placeholder="Nombre de la agencia"></div>
+    <div class="two-col">
+      <div class="field"><label>Nombre del asesor</label><input type="text" id="nomAs" placeholder="Nombre"></div>
+      <div class="field"><label>Teléfono del asesor</label><input type="tel" id="telAs" placeholder="300 000 0000"></div>
+    </div>
+    <div class="field"><label>Correo del asesor</label><input type="email" id="emAs" placeholder="asesor@agencia.com"></div>
+  </div>
 
-  <p class="nota">Cotización válida 30 días · Sin IVA · Sin gastos de expedición<br>Seguros Comerciales Bolívar S.A. se reserva el derecho de revisar términos ante cambios en la siniestralidad.</p>
+  <div class="card">
+    <div class="card-title">Datos del riesgo</div>
+    <div class="field"><label>Buscar profesión</label><input type="text" id="profSearch" placeholder="Ej: ortopedista, médico general..." oninput="filterProf(this.value)" autocomplete="off"></div>
+    <div class="field"><label>Seleccionar profesión</label><select id="profSelect" onchange="onPC()"><option value="">— seleccionar —</option></select></div>
+    <div class="field"><label>Valor asegurado (mínimo $50.000.000)</label><input type="number" id="valIn" min="50000000" max="1000000000" step="1000000" value="100000000"></div>
+    <div class="field"><label>¿Ha tenido siniestralidad?</label>
+      <div class="toggle-row"><button class="toggle-btn" id="sinSI" onclick="setSin('SI')">Sí</button><button class="toggle-btn active" id="sinNO" onclick="setSin('NO')">No</button></div>
+    </div>
+    <div class="field"><label>¿Trabaja en 2 o más instituciones?</label>
+      <div class="toggle-row"><button class="toggle-btn" id="instSI" onclick="setInst('SI')">Sí</button><button class="toggle-btn active" id="instNO" onclick="setInst('NO')">No</button></div>
+    </div>
+    <div class="field"><label>¿Tiene 2 o más profesiones?</label>
+      <div class="toggle-row"><button class="toggle-btn" id="pdSI" onclick="setPD('SI')">Sí</button><button class="toggle-btn active" id="pdNO" onclick="setPD('NO')">No</button></div>
+    </div>
+    <button class="calc-btn" onclick="calcular()">Calcular cotización</button>
+  </div>
+
+  <div id="res"><div class="empty">Completa los datos y haz clic en "Calcular cotización"</div></div>
+  <p class="nota">Cotización válida 30 días · Prima sin IVA · Sin gastos de expedición<br>Seguros Comerciales Bolívar S.A. se reserva el derecho de revisar términos ante cambios en la siniestralidad o estado del riesgo.</p>
 </div>
 
 <script>
-const PROFESIONES = {
-  5:["ANESTESIOLOGO","EMATO-ONCOLOGO","CIRUGIA PLASTICA RECONSTRUCTIVA","CIRUJANO","NEUMÓLOGO","ANGIOLOGO","GINECOLOGO","IMPLÁNTOLOGO","CARDIOLOGO","GINECOBSTETRA","ESTOMATOLOGO","RETÍNOLOGO","NEUROLOGO","URONCÓLOGO","PERFUSIONISTA","CIRUJANO ORTOPEDISTA","GASTROENTEROLOGO","NEUROCIRUJANO","CIRUJANOS OTRAS ESPECIALIDADES"],
+const DIR_EMAIL="alexander.ramirez.guerrero@segurosbolivar.com";
+const PROFS={
+  5:["ANESTESIOLOGO","EMATO-ONCOLOGO","CIRUGIA PLASTICA RECONSTRUCTIVA","CIRUJANO","NEUMÓLOGO","ANGIOLOGO","GINECOLOGO","IMPLANTOLOGO","CARDIOLOGO","GINECOBSTETRA","ESTOMATOLOGO","RETINOLOGO","NEUROLOGO","URONCÓLOGO","PERFUSIONISTA","CIRUJANO ORTOPEDISTA","GASTROENTEROLOGO","NEUROCIRUJANO","CIRUJANOS OTRAS ESPECIALIDADES"],
   4:["RADIOLOGO","INTENSIVISTA","RADIOTERAPEUTA","UROLOGO","ELECTROFISIOLOGO","ORTOPEDISTA","PSIQUIATRA","URGENCIOLOGO"],
-  3:["MASTOLOGO","REHABILITADOR DENTAL","ECÓGRAFO","ENDOCRINOLOGO","OFTALMOLOGO","ESTRÁBOLOGO","PEDIATRA","OTORRINOLARINGOLOGO","HEMATOLOGO","ORTOPOTÓLOGO","ENDODONCISTA","REUMATOLOGO","PROCTÓLOGO","ESPECIALISTA MAXILOFACIAL","EPIDEMIOLOGO","PSICÓLOGOS","PERIODONCISTA","ENDOSCOPISTA","PATÓLOGO","GERONTOLOGO","HEMODINÁMICA","INFECTOLOGO","TRAUMATOLOGO","NEFRÓLOGO","LINFOLOGO","INMUNÓLOGO","ODONTOPEDIATRA","FISIATRA"],
-  2:["MEDICO GENERAL","ALERGISTA","ENFERMERA","FISICO MEDICO","QUIMICO","BACTERIOLOGO","TERÁPISTA VIAS RESPIRATORIA","NUTRICIONISTA","OPTÓMETRA","TERÁPISTA DE LENGUAJE","DERMATOLOGO","FISIOTERAPEUTA","TERAPEUTA","TIFLOLOGIA","INTERNISTA","MEDICO ALTERNATIVO","PROSTODONCIO","TOXICOLOGO","MEDICINA NUCLEAR","HOMEOPATA","GERONTOLOGIA"],
-  1:["ODONTÓLOGO","ORTODONCISTA","HIGIENISTA","AUXILIAR DE ENFERMERIA","AUXILIAR DE ODONTOLOGIA"]
+  3:["MASTOLOGO","REHABILITADOR DENTAL","ECOGRAFO","ENDOCRINOLOGO","OFTALMOLOGO","ESTRABOLOGO","PEDIATRA","OTORRINOLARINGOLOGO","HEMATOLOGO","ORTOPOTÓLOGO","ENDODONCISTA","REUMATOLOGO","PROCTOLOGO","ESPECIALISTA MAXILOFACIAL","EPIDEMIOLOGO","PSICOLOGOS","PERIODONCISTA","ENDOSCOPISTA","PATOLOGO","GERONTOLOGO","HEMODINAMICA","INFECTOLOGO","TRAUMATOLOGO","NEFROLOGO","LINFOLOGO","INMUNÓLOGO","ODONTOPEDIATRA","FISIATRA"],
+  2:["MEDICO GENERAL","ALERGISTA","ENFERMERA","FISICO MEDICO","QUIMICO","BACTERIOLOGO","TERAPISTA VIAS RESPIRATORIA","NUTRICIONISTA","OPTOMETRA","TERAPISTA DE LENGUAJE","DERMATOLOGO","FISIOTERAPEUTA","TERAPEUTA","TIFLOLOGIA","INTERNISTA","MEDICO ALTERNATIVO","PROSTODONCIO","TOXICOLOGO","MEDICINA NUCLEAR","HOMEOPATA","GERONTOLOGIA"],
+  1:["ODONTOLOGO","ORTODONCISTA","HIGIENISTA","AUXILIAR DE ENFERMERIA","AUXILIAR DE ODONTOLOGIA"]
 };
-
-const profMap={};
-const allProfs=[];
-Object.entries(PROFESIONES).forEach(([cat,profs])=>{profs.forEach(p=>{profMap[p]=parseInt(cat);allProfs.push(p);});});
-allProfs.sort();
-
-let state={prof:'',cat:0,valor:100000000,sin:'NO',inst:'NO',profDoble:'NO'};
-
-function poblarSelect(lista){
-  const sel=document.getElementById('profSelect');
-  const prev=state.prof;
-  sel.innerHTML='<option value="">— seleccionar —</option>';
-  lista.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;if(p===prev)o.selected=true;sel.appendChild(o);});
+const pMap={};const aP=[];
+Object.entries(PROFS).forEach(([c,ps])=>{ps.forEach(p=>{pMap[p]=parseInt(c);aP.push(p);});});aP.sort();
+let st={prof:'',cat:0,val:100000000,sin:'NO',inst:'NO',pd:'NO'};
+let last=null;
+function poblar(lista){const s=document.getElementById('profSelect');const pv=st.prof;s.innerHTML='<option value="">— seleccionar —</option>';lista.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;if(p===pv)o.selected=true;s.appendChild(o);});}
+poblar(aP);
+function filterProf(q){poblar(q.trim()===''?aP:aP.filter(p=>p.toLowerCase().includes(q.toLowerCase())));}
+function onPC(){const s=document.getElementById('profSelect');st.prof=s.value;st.cat=pMap[s.value]||0;}
+function setSin(v){st.sin=v;document.getElementById('sinSI').className='toggle-btn'+(v==='SI'?' active':'');document.getElementById('sinNO').className='toggle-btn'+(v==='NO'?' active':'');}
+function setInst(v){st.inst=v;document.getElementById('instSI').className='toggle-btn'+(v==='SI'?' active':'');document.getElementById('instNO').className='toggle-btn'+(v==='NO'?' active':'');}
+function setPD(v){st.pd=v;document.getElementById('pdSI').className='toggle-btn'+(v==='SI'?' active':'');document.getElementById('pdNO').className='toggle-btn'+(v==='NO'?' active':'');}
+function calcPrima(v){
+  const pts=[[50e6,{5:348250,4:288250,3:238250,2:178250,1:132500}],[100e6,{5:450500,4:365500,3:305500,2:234500,1:172250}],[200e6,{5:660500,4:530000,3:430000,2:308750,1:226250}],[300e6,{5:850750,4:700750,3:570750,2:400750,1:297812}],[400e6,{5:1077000,4:877000,3:707000,2:457000,1:343187}],[500e6,{5:1251250,4:1041250,3:851250,2:561250,1:418984}]];
+  for(let i=0;i<pts.length-1;i++){const[v0,p0]=pts[i];const[v1,p1]=pts[i+1];if(v>=v0&&v<=v1){const t=(v-v0)/(v1-v0);const r={};[1,2,3,4,5].forEach(c=>{r[c]=Math.round(p0[c]+t*(p1[c]-p0[c]));});return r;}}return null;
 }
-poblarSelect(allProfs);
-
-function filterProf(q){
-  const f=q.trim()===''?allProfs:allProfs.filter(p=>p.toLowerCase().includes(q.toLowerCase()));
-  poblarSelect(f);
-}
-function onProfChange(){
-  const sel=document.getElementById('profSelect');
-  state.prof=sel.value;
-  state.cat=profMap[state.prof]||0;
-  calcular();
-}
-function setSin(v){state.sin=v;document.getElementById('sinSI').className='toggle-btn'+(v==='SI'?' active':'');document.getElementById('sinNO').className='toggle-btn'+(v==='NO'?' active':'');calcular();}
-function setInst(v){state.inst=v;document.getElementById('instSI').className='toggle-btn'+(v==='SI'?' active':'');document.getElementById('instNO').className='toggle-btn'+(v==='NO'?' active':'');calcular();}
-function setProfDoble(v){state.profDoble=v;document.getElementById('profSI').className='toggle-btn'+(v==='SI'?' active':'');document.getElementById('profNO').className='toggle-btn'+(v==='NO'?' active':'');calcular();}
-document.getElementById('valorInput').oninput=function(){state.valor=parseInt(this.value)||0;calcular();};
-
-function calcPrima(valor){
-  const pts=[
-    [50e6,{5:348250,4:288250,3:238250,2:178250,1:132500}],
-    [100e6,{5:450500,4:365500,3:305500,2:234500,1:172250}],
-    [200e6,{5:660500,4:530000,3:430000,2:308750,1:226250}],
-    [300e6,{5:850750,4:700750,3:570750,2:400750,1:297812}],
-    [400e6,{5:1077000,4:877000,3:707000,2:457000,1:343187}],
-    [500e6,{5:1251250,4:1041250,3:851250,2:561250,1:418984}]
-  ];
-  for(let i=0;i<pts.length-1;i++){
-    const[v0,p0]=pts[i];const[v1,p1]=pts[i+1];
-    if(valor>=v0&&valor<=v1){
-      const t=(valor-v0)/(v1-v0);
-      const res={};[1,2,3,4,5].forEach(c=>{res[c]=Math.round(p0[c]+t*(p1[c]-p0[c]));});
-      return res;
-    }
-  }
-  return null;
-}
-
 function fmt(n){return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(n);}
+function fd(d){return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function gv(id){return(document.getElementById(id)||{}).value||'';}
+function cn(){return 'RC-'+Date.now().toString().slice(-8);}
 
 function calcular(){
-  const area=document.getElementById('resultArea');
-  if(!state.prof){area.innerHTML='<div class="empty-state">Selecciona una profesión para ver la cotización</div>';return;}
-  const v=state.valor;
-  if(v<50000000){area.innerHTML='<div class="alerta-box"><strong>Valor mínimo no cumplido</strong>El valor asegurado mínimo es $50.000.000.</div>';return;}
-
-  const escalaValor=v>500000000;
-  const escalaInst=state.inst==='SI';
-  const escalaProfDoble=state.profDoble==='SI';
-  const escalaSin=state.sin==='SI';
-  const escalaCirc=state.prof==='CIRUGIA PLASTICA RECONSTRUCTIVA';
-  const necesitaEscala=escalaValor||escalaSin||escalaCirc;
-  const necesitaAutorizacion=escalaInst||escalaProfDoble;
-
-  let primaNeta=0,extraprima=0,primaBase=0;
-  let motivos=[];
-
-  if(!escalaValor){
-    const primas=calcPrima(v);
-    if(primas){
-      primaBase=primas[state.cat];
-      primaNeta=primaBase;
-      if(necesitaAutorizacion){
-        extraprima=Math.round(primaBase*0.20);
-        primaNeta+=extraprima;
-        if(escalaInst)motivos.push('2+ instituciones');
-        if(escalaProfDoble)motivos.push('2+ profesiones');
-      }
-    }
-  }
-
-  const catNames={5:'Cat. 5 — máximo riesgo',4:'Cat. 4',3:'Cat. 3',2:'Cat. 2',1:'Cat. 1 — mínimo riesgo'};
-  let html='';
-
-  if(necesitaEscala){
-    let razones=[];
-    if(escalaValor)razones.push('Valor asegurado superior a $500.000.000');
-    if(escalaSin)razones.push('Registra siniestralidad');
-    if(escalaCirc)razones.push('Cirugía plástica: siempre requiere delegación del Director Comercial');
-    html+=`
-    <div class="result-card">
-      <div class="result-header escala-header">
-        <div class="label">Estado</div>
-        <div class="prima">Requiere escalamiento</div>
-        <div class="sub">Esta solicitud debe ser enviada al Director Comercial</div>
-      </div>
-      <div class="result-body">
-        <div class="result-row"><span class="lbl">Profesión</span><span class="val">${state.prof}</span></div>
-        <div class="result-row"><span class="lbl">Clasificación</span><span class="val"><span class="badge badge-cat">Cat. ${state.cat}</span></span></div>
-        <div class="result-row"><span class="lbl">Valor asegurado</span><span class="val">${fmt(v)}</span></div>
-        <div class="result-row"><span class="lbl">Siniestralidad</span><span class="val">${state.sin}</span></div>
-      </div>
-    </div>
-    <div class="escala-box"><strong>Motivo del escalamiento</strong>${razones.map(r=>'· '+r).join('<br>')}</div>`;
+  onPC();
+  st.val=parseInt(document.getElementById('valIn').value)||0;
+  const area=document.getElementById('res');
+  if(!st.prof){area.innerHTML='<div class="empty">Selecciona una profesión para continuar.</div>';return;}
+  if(st.val<50000000){area.innerHTML='<div class="ibox warn"><b>Valor mínimo no cumplido</b>El valor asegurado mínimo es $50.000.000.</div>';return;}
+  const v=st.val;
+  const eV=v>500000000,eSin=st.sin==='SI',eCirc=st.prof==='CIRUGIA PLASTICA RECONSTRUCTIVA';
+  const needEval=st.inst==='SI'||st.pd==='SI';
+  const needEscala=eV||eSin||eCirc;
+  let primaBase=0,primaNeta=0,motEval=[];
+  if(!needEscala){const pr=calcPrima(v);if(pr){primaBase=pr[st.cat];primaNeta=primaBase;}if(needEval){if(st.inst==='SI')motEval.push('trabaja en 2 o más instituciones');if(st.pd==='SI')motEval.push('tiene 2 o más profesiones');}}
+  const today=new Date();const vigH=new Date(today);vigH.setFullYear(vigH.getFullYear()+1);
+  const cotN=cn();
+  last={cotN,today,vigH,v,primaBase,primaNeta,motEval,needEscala,needEval,eV,eSin,eCirc};
+  const cNames={5:'Cat. 5 — máximo riesgo',4:'Cat. 4',3:'Cat. 3',2:'Cat. 2',1:'Cat. 1 — mínimo riesgo'};
+  let h='';
+  if(needEscala){
+    let r=[];if(eV)r.push('Valor asegurado superior a $500.000.000');if(eSin)r.push('Registra siniestralidad previa');if(eCirc)r.push('Cirugía plástica: requiere autorización del Director Comercial Especializado');
+    h+=`<div class="result-card"><div class="rh escala"><div class="rl">Estado de la solicitud</div><div class="rp">Requiere evaluación del Director Comercial</div><div class="rs">Enviar al Director Comercial Especializado de Generales</div></div>
+    <div class="rb">
+      <div class="rrow"><span class="ll">Médico / Asegurado</span><span class="vv">${gv('nomMed')||'—'}</span></div>
+      <div class="rrow"><span class="ll">Profesión</span><span class="vv">${st.prof}</span></div>
+      <div class="rrow"><span class="ll">Clasificación</span><span class="vv"><span class="badge">Cat. ${st.cat}</span></span></div>
+      <div class="rrow"><span class="ll">Valor asegurado</span><span class="vv">${fmt(v)}</span></div>
+      <div class="rrow"><span class="ll">Siniestralidad</span><span class="vv">${st.sin==='SI'?'Sí presenta':'No presenta'}</span></div>
+      <div class="rrow"><span class="ll">No. cotización</span><span class="vv">${cotN}</span></div>
+    </div></div>
+    <div class="ibox danger"><b>Motivo del escalamiento</b>${r.map(x=>'· '+x).join('<br>')}</div>
+    <div class="arow"><button class="btn-pdf" onclick="generarPDF()">⬇ Descargar PDF</button><button class="btn-mail red" onclick="correoEscala()">✉ Enviar al Director Comercial</button></div>`;
   } else {
-    html+=`
-    <div class="result-card">
-      <div class="result-header">
-        <div class="label">Prima neta (sin IVA)</div>
-        <div class="prima">${fmt(primaNeta)}</div>
-        <div class="sub">Vigencia 12 meses · Base de cobertura: Ocurrencia</div>
-      </div>
-      <div class="result-body">
-        <div class="result-row"><span class="lbl">Profesión</span><span class="val">${state.prof}</span></div>
-        <div class="result-row"><span class="lbl">Clasificación</span><span class="val"><span class="badge badge-cat">Cat. ${state.cat} — ${catNames[state.cat]}</span></span></div>
-        <div class="result-row"><span class="lbl">Valor asegurado</span><span class="val">${fmt(v)}</span></div>
-        <div class="result-row"><span class="lbl">Prima base</span><span class="val">${fmt(primaBase)}</span></div>
-        ${extraprima>0?`<div class="result-row"><span class="lbl">Extraprima 20% (${motivos.join(', ')})</span><span class="val">${fmt(extraprima)}</span></div>`:''}
-        <div class="result-row"><span class="lbl">Amparos</span><span class="val">RC Prof. · Gastos def. · Daño moral · Lucro cesante</span></div>
-        <div class="result-row"><span class="lbl">Deducible</span><span class="val">2 SMMLV / 10% mínimo</span></div>
-      </div>
-    </div>`;
-    if(necesitaAutorizacion){
-      html+=`<div class="alerta-box"><strong>Requiere autorización del Director Comercial</strong>La extraprima del 20% por ${motivos.join(' y ')} debe ser aprobada antes de emitir la póliza.</div>`;
+    h+=`<div class="result-card"><div class="rh"><div class="rl">Prima neta (sin IVA)</div><div class="rp">${fmt(primaNeta)}</div><div class="rs">Vigencia 12 meses · Base de cobertura: Ocurrencia</div></div>
+    <div class="rb">
+      <div class="rrow"><span class="ll">Médico / Asegurado</span><span class="vv">${gv('nomMed')||'—'}</span></div>
+      <div class="rrow"><span class="ll">Profesión</span><span class="vv">${st.prof} <span class="badge">${cNames[st.cat]}</span></span></div>
+      <div class="rrow"><span class="ll">Valor asegurado</span><span class="vv">${fmt(v)}</span></div>
+      <div class="rrow"><span class="ll">Prima neta</span><span class="vv">${fmt(primaNeta)}</span></div>
+      <div class="rrow"><span class="ll">Amparos</span><span class="vv">RC Prof. · Gastos def. · Daño moral · Lucro cesante</span></div>
+      <div class="rrow"><span class="ll">Deducible</span><span class="vv">2 SMMLV / 10% mínimo</span></div>
+      <div class="rrow"><span class="ll">Vigencia</span><span class="vv">${fd(today)} — ${fd(vigH)}</span></div>
+      <div class="rrow"><span class="ll">No. cotización</span><span class="vv">${cotN}</span></div>
+    </div></div>`;
+    if(needEval){
+      h+=`<div class="ibox warn"><b>Requiere evaluación del Director Comercial</b>Esta solicitud incluye condiciones especiales (${motEval.join(' y ')}) que deben ser evaluadas antes de emitir la póliza.</div>
+      <div class="arow"><button class="btn-pdf" onclick="generarPDF()">⬇ Descargar PDF</button><button class="btn-mail red" onclick="correoEscala()">✉ Enviar al Director Comercial</button></div>`;
+    } else {
+      h+=`<div class="arow"><button class="btn-pdf" onclick="generarPDF()">⬇ Descargar PDF</button><button class="btn-mail" onclick="correoAsesor()">✉ Enviar por correo</button></div>`;
     }
   }
-
-  html+=`<button class="copy-btn" onclick="copiarResumen()">Copiar resumen para WhatsApp / correo</button>`;
-  area.innerHTML=html;
+  area.innerHTML=h;
 }
 
-function copiarResumen(){
-  if(!state.prof)return;
-  const v=state.valor;
-  const escalaValor=v>500000000;
-  const escalaInst=state.inst==='SI';
-  const escalaProfDoble=state.profDoble==='SI';
-  const escalaSin=state.sin==='SI';
-  const escalaCirc=state.prof==='CIRUGIA PLASTICA RECONSTRUCTIVA';
-  const necesitaEscala=escalaValor||escalaSin||escalaCirc;
-  let primaNeta=0,extraprima=0;
-  if(!escalaValor){
-    const primas=calcPrima(v);
-    if(primas){primaNeta=primas[state.cat];if(escalaInst||escalaProfDoble){extraprima=Math.round(primaNeta*0.20);primaNeta+=extraprima;}}
+function generarPDF(){
+  if(!last)return;
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'mm',format:'a4'});
+  const W=210,M=18,CW=W-M*2;let y=0;
+  const RED='#d62b2b',DK='#1a1a1a',GR='#888888',LG='#f5f4f0',WH='#ffffff',LN='#e8e8e8';
+
+  doc.setFillColor(RED);doc.rect(0,0,W,28,'F');
+  doc.setTextColor(WH);doc.setFontSize(16);doc.setFont('helvetica','bold');doc.text('SEGUROS BOLÍVAR',M,13);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Responsabilidad Civil — Profesiones Médicas',M,20);
+  doc.setFontSize(8);doc.text('No. '+last.cotN,W-M,13,{align:'right'});doc.text('Fecha: '+fd(last.today),W-M,19,{align:'right'});
+  y=36;
+
+  doc.setTextColor(DK);doc.setFontSize(13);doc.setFont('helvetica','bold');
+  doc.text(last.needEscala?'SOLICITUD DE EVALUACIÓN — ESCALAMIENTO':'COTIZACIÓN DE SEGURO',M,y);
+  y+=2;doc.setDrawColor(LN);doc.setLineWidth(0.3);doc.line(M,y,W-M,y);y+=7;
+
+  function sec(t){doc.setFillColor(LG);doc.rect(M,y-4,CW,7,'F');doc.setTextColor(GR);doc.setFontSize(7.5);doc.setFont('helvetica','bold');doc.text(t.toUpperCase(),M+3,y+0.5);y+=8;}
+  function row(l,v,b=false){doc.setTextColor(GR);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text(l,M+2,y);doc.setTextColor(DK);doc.setFont('helvetica',b?'bold':'normal');doc.text(String(v),W-M,y,{align:'right'});doc.setDrawColor(LN);doc.setLineWidth(0.2);doc.line(M,y+2,W-M,y+2);y+=9;}
+  function chk(){if(y>265){doc.addPage();y=20;}}
+
+  sec('Datos del asegurado');
+  row('Nombre completo',gv('nomMed')||'—');row('Cédula de ciudadanía',gv('ccMed')||'—');row('Ciudad',gv('cidMed')||'—');row('Teléfono',gv('telMed')||'—');row('Correo electrónico',gv('emMed')||'—');y+=2;
+
+  sec('Agencia y asesor');
+  row('Agencia',gv('nomAg')||'—');row('Asesor',gv('nomAs')||'—');row('Teléfono asesor',gv('telAs')||'—');row('Correo asesor',gv('emAs')||'—');y+=2;
+
+  sec('Datos del riesgo');
+  row('Profesión',st.prof);row('Categoría de riesgo','Categoría '+st.cat);row('Valor asegurado',fmt(last.v));row('Siniestralidad',st.sin==='SI'?'Sí presenta':'No presenta');row('2 o más instituciones',st.inst==='SI'?'Sí':'No');row('2 o más profesiones',st.pd==='SI'?'Sí':'No');y+=2;
+
+  if(!last.needEscala){
+    doc.setFillColor(DK);doc.rect(M,y-1,CW,16,'F');
+    doc.setTextColor(WH);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('PRIMA NETA (SIN IVA)',M+4,y+5);
+    doc.setFontSize(16);doc.setFont('helvetica','bold');doc.text(fmt(last.primaNeta),W-M-4,y+10,{align:'right'});y+=22;
+
+    sec('Condiciones de la cotización');
+    row('Vigencia',fd(last.today)+' — '+fd(last.vigH));row('Base de cobertura','Ocurrencia (Art. 1131 C. Comercio)');
+    row('Deducible','2 SMMLV / 10% mínimo por reclamación');row('Amparos','RC Profesional · Gastos de Defensa · Daño Moral · Lucro Cesante');y+=4;
+
+    if(last.needEval){
+      chk();doc.setFillColor('#fffbea');doc.rect(M,y-4,CW,18,'F');doc.setDrawColor('#f5c542');doc.setLineWidth(0.5);doc.rect(M,y-4,CW,18,'D');
+      doc.setTextColor('#7a5c00');doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.text('REQUIERE EVALUACIÓN DEL DIRECTOR COMERCIAL',M+3,y+1);
+      doc.setFont('helvetica','normal');doc.setFontSize(8);
+      doc.text('Condiciones especiales: '+last.motEval.join(' y ')+'.',M+3,y+7,{maxWidth:CW-6});
+      doc.text('Debe ser evaluada por el Director Comercial Especializado de Generales antes de emitir.',M+3,y+12,{maxWidth:CW-6});y+=24;
+    }
+  } else {
+    chk();doc.setFillColor('#fff5f5');doc.rect(M,y-1,CW,20,'F');doc.setDrawColor('#f5a0a0');doc.setLineWidth(0.5);doc.rect(M,y-1,CW,20,'D');
+    doc.setTextColor('#a00000');doc.setFontSize(9);doc.setFont('helvetica','bold');doc.text('REQUIERE EVALUACIÓN DEL DIRECTOR COMERCIAL ESPECIALIZADO',M+3,y+5);
+    doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text('Enviar esta solicitud a: '+DIR_EMAIL,M+3,y+11,{maxWidth:CW-6});y+=26;
   }
-  let txt='*Cotización RC Profesiones Médicas — Seguros Bolívar*\n';
-  txt+=`Profesión: ${state.prof} (Cat. ${state.cat})\n`;
-  txt+=`Valor asegurado: ${fmt(v)}\n`;
-  txt+=`Siniestralidad: ${state.sin} | 2+ instituciones: ${state.inst} | 2+ profesiones: ${state.profDoble}\n`;
-  if(necesitaEscala){txt+='*Estado: REQUIERE ESCALAMIENTO AL DIRECTOR COMERCIAL*\n';}
-  else{
-    txt+=`Prima neta (sin IVA): ${fmt(primaNeta)}\n`;
-    if(extraprima>0)txt+=`Extraprima 20%: ${fmt(extraprima)} — pendiente autorización DC\n`;
-    txt+=`Amparos: RC Prof. · Gastos def. · Daño moral · Lucro cesante\n`;
-    txt+=`Deducible: 2 SMMLV / 10% | Vigencia: 12 meses\n`;
-    txt+=`_Cotización válida 30 días calendario_`;
-  }
-  navigator.clipboard.writeText(txt).then(()=>{
-    const btn=document.querySelector('.copy-btn');
-    if(btn){btn.textContent='¡Copiado!';setTimeout(()=>{btn.textContent='Copiar resumen para WhatsApp / correo';},2000);}
+
+  // Clausulado
+  chk();
+  doc.setFillColor(LG);doc.rect(M,y-4,CW,7,'F');doc.setTextColor(GR);doc.setFontSize(7.5);doc.setFont('helvetica','bold');doc.text('CONDICIONES GENERALES DEL SEGURO — PÓLIZA 01052004-1327-P-6-RC_023',M+3,y+0.5);y+=8;
+
+  const CLAUS=[
+    ['1. AMPAROS OTORGADOS','1.1 RC profesional por perjuicios a terceros por negligencia, impericia o errores en el ejercicio de la profesión médica/odontológica, siempre que el asegurado esté legalmente habilitado.\n1.2 RC por daños durante sustitución provisional por médico de la misma especialidad que siga las indicaciones del asegurado.\n1.3 RC por suministro de materiales médicos, quirúrgicos o medicamentos elaborados por el asegurado, debidamente registrados ante la autoridad competente.\n1.4 RC por propiedad, posesión o uso de aparatos y tratamientos reconocidos por la ciencia médica, incluyendo equipos de radiografía, tomografía, rayos láser y medicina nuclear (previa autorización expresa).\n1.5 RC extracontractual (PLO) por daños en predios donde desarrolla su actividad.\n1.6 Gastos de defensa judicial en procesos derivados de daños amparados.'],
+    ['2. EXCLUSIONES PRINCIPALES','• Servicios prestados por personas no habilitadas legalmente para ejercer la profesión.\n• Servicios bajo influencia de sustancias intoxicantes, estupefacientes o alcohólicas.\n• Cirugía plástica o estética (salvo reconstructiva post-accidente o correctiva de anormalidades congénitas).\n• Tratamientos para impedir o provocar embarazo (esterilización, FIV, aborto).\n• Daños relacionados con VIH/SIDA o hepatitis C.\n• Daños genéticos o por manipulaciones genéticas.\n• Reembolso de honorarios profesionales.\n• Gastos médicos propios del asegurado.\n• Tratamientos innecesarios, dictámenes periciales o violación del secreto profesional.\n• Anestesia general no aplicada por especialista en clínica/hospital acreditado.'],
+    ['3. DEFINICIÓN DE SINIESTRO','Hecho dañoso imputable al asegurado, ocurrido durante la vigencia, cuyas consecuencias sean reclamadas de forma fehaciente —judicial o extrajudicialmente— durante la vigencia o dentro de los dos (2) años siguientes a su terminación.'],
+    ['4. LÍMITES DE COBERTURA','4.1 Temporal: No cubre hechos ocurridos antes de la vigencia de la póliza.\n4.2 Territorial: Aplica exclusivamente a actividades bajo legislación colombiana, en territorio nacional.'],
+    ['5. DEDUCIBLE','Se aplica a cada reclamación y a los gastos de defensa generados, independientemente de la causa o de la existencia de sentencia ejecutoriada.'],
+    ['6. OBLIGACIONES DEL ASEGURADO','6.1 Notificar a la compañía las modificaciones que puedan agravar el riesgo, tan pronto como las conozca.\n6.2 Notificar de forma inmediata cualquier demanda judicial o extrajudicial relacionada con su actividad profesional.'],
+    ['7. NULIDAD Y TERMINACIÓN','El seguro termina automáticamente si el asegurado es inhabilitado legalmente para el ejercicio de su actividad. Las personas inhabilitadas vinculadas laboralmente quedarán excluidas de la cobertura.'],
+  ];
+
+  CLAUS.forEach(([t,b])=>{
+    chk();
+    doc.setTextColor(DK);doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.text(t,M,y);y+=5;
+    doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor('#333333');
+    const lines=doc.splitTextToSize(b,CW);
+    lines.forEach(ln=>{chk();doc.text(ln,M,y);y+=4.5;});
+    y+=4;
   });
+
+  // Footer en todas las páginas
+  const np=doc.getNumberOfPages();
+  for(let i=1;i<=np;i++){
+    doc.setPage(i);doc.setFillColor(LG);doc.rect(0,287,W,10,'F');
+    doc.setTextColor(GR);doc.setFontSize(7);doc.setFont('helvetica','normal');
+    doc.text('Seguros Comerciales Bolívar S.A. · RC Profesiones Médicas · Cotización válida 30 días',M,293);
+    doc.text('Pág. '+i+' / '+np,W-M,293,{align:'right'});
+  }
+  doc.save('Cotizacion_RC_'+last.cotN+'.pdf');
+}
+
+function correoEscala(){
+  if(!last)return;
+  const nom=gv('nomMed')||'—',cc=gv('ccMed')||'—',ag=gv('nomAg')||'—',as=gv('nomAs')||'—';
+  let mot=[];if(last.eV)mot.push('Valor > $500M');if(last.eSin)mot.push('Siniestralidad');if(last.eCirc)mot.push('Cirugía plástica');if(st.inst==='SI')mot.push('2+ instituciones');if(st.pd==='SI')mot.push('2+ profesiones');
+  const sub=encodeURIComponent('Solicitud evaluación RC Médicas — '+nom+' — '+last.cotN);
+  const body=encodeURIComponent(`Estimado Director Comercial Especializado,\n\nSolicito evaluación para la siguiente cotización de RC Profesiones Médicas:\n\n--- DATOS DEL ASEGURADO ---\nNombre: ${nom}\nCédula: ${cc}\nCiudad: ${gv('cidMed')||'—'}\nTeléfono: ${gv('telMed')||'—'}\nCorreo: ${gv('emMed')||'—'}\n\n--- DATOS DEL RIESGO ---\nProfesión: ${st.prof} (Categoría ${st.cat})\nValor asegurado: ${fmt(last.v)}\nSiniestralidad: ${st.sin}\n2+ instituciones: ${st.inst} | 2+ profesiones: ${st.pd}\n\n--- MOTIVO DE ESCALAMIENTO ---\n${mot.map(m=>'• '+m).join('\n')}\n\n--- AGENCIA Y ASESOR ---\nAgencia: ${ag}\nAsesor: ${as}\nTeléfono: ${gv('telAs')||'—'}\nCorreo: ${gv('emAs')||'—'}\n\nNo. Cotización: ${last.cotN}\nFecha: ${fd(last.today)}\n\nQuedo atento a su respuesta.\n\n${as}\n${ag}`);
+  window.location.href=`mailto:${DIR_EMAIL}?subject=${sub}&body=${body}`;
+}
+
+function correoAsesor(){
+  if(!last)return;
+  const sub=encodeURIComponent('Cotización RC Profesiones Médicas — '+gv('nomMed')+' — '+last.cotN);
+  const body=encodeURIComponent(`Estimado(a),\n\nAdjunto encontrará la cotización de Responsabilidad Civil Profesiones Médicas.\n\nDatos principales:\n• Médico: ${gv('nomMed')||'—'}\n• Profesión: ${st.prof} (Categoría ${st.cat})\n• Valor asegurado: ${fmt(last.v)}\n• Prima neta (sin IVA): ${fmt(last.primaNeta)}\n• Vigencia: 12 meses (${fd(last.today)} — ${fd(last.vigH)})\n• No. Cotización: ${last.cotN}\n\nEsta cotización tiene validez de 30 días calendario.\n\nPara cualquier consulta:\n${gv('nomAs')||'—'} · ${gv('telAs')||'—'} · ${gv('emAs')||'—'}\nAgencia: ${gv('nomAg')||'—'}\n\nCordialmente,\n${gv('nomAs')||'—'}\n${gv('nomAg')||'—'}`);
+  window.location.href=`mailto:${gv('emMed')}?cc=${gv('emAs')}&subject=${sub}&body=${body}`;
 }
 </script>
 </body>
